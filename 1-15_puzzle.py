@@ -3,8 +3,8 @@ import sys
 import random
 from pygame.locals import *
 
-w_of_board = 4  # total number of columns in the board of Puzzle Game In Python
-h_of_board = 4  # total number of rows in the board
+w_of_board = 4  
+h_of_board = 4  
 block_size = 80
 win_width = 700
 win_height = 480
@@ -55,7 +55,6 @@ def main():
     # main game loop
     while True:
         slideTo = None
-        # the below variable contains the message to show in the top left corner.
         msg = 'Click a block or press arrow keys to slide the block.'
         if mainBoard == SOLVEDBOARD:
             msg = 'Solved!'
@@ -70,15 +69,15 @@ def main():
                 if (spotx, spoty) == (None, None):
                     # this is to check if the user clicked on an option button
                     if RESET_RECT.collidepoint(event.pos):
-                        # this below linw will come into action of the user clicked on Reset button
+                        # this below line will come into action of the user clicked on Reset button
                         rst_animation(mainBoard, allMoves)
                         allMoves = []
                     elif NEW_RECT.collidepoint(event.pos):
-                        # this below linw will come into action of the user clicked on New Game button
+                        # this below line will come into action of the user clicked on New Game button
                         mainBoard, solutionSeq = generateNewPuzzle(80)
                         allMoves = []
                     elif SOLVE_RECT.collidepoint(event.pos):
-                        # this below linw will come into action of the user clicked on Solve button
+                        # this below line will come into action of the user clicked on Solve button
                         rst_animation(mainBoard, solutionSeq + allMoves)
                         allMoves = []
                 else:
@@ -196,7 +195,7 @@ def random_moves(board, lastMove=None):
     if lastMove == RIGHT or not isValidMove(board, LEFT):
         validMoves.remove(LEFT)
 
-    # this will perform the return nad it will return a random move from the list of remaining moves
+    # this will perform the return and it will return a random move from the list of remaining moves
     return random.choice(validMoves)
 
 
@@ -236,9 +235,6 @@ def makeText(text, color, bgcolor, top, left):
     text_in_rect.topleft = (top, left)
     return (text_renderign, text_in_rect)
 
-# this function will draw the board wherein the player can play.
-# it holds the code for displaying different color and logic behind the game
-
 
 def drawBoard(board, message):
     DISPLAYSURF.fill(BGCOLOR)
@@ -262,10 +258,6 @@ def drawBoard(board, message):
     DISPLAYSURF.blit(NEW_SURF, NEW_RECT)
     DISPLAYSURF.blit(SOLVE_SURF, SOLVE_RECT)
 
-# this function is to handle the animation that are displayed when a user starts a new Game
-# a user can see the sliding animation over the blocks
-# this is made possible using the below function
-
 
 def sliding_animation(board, direction, message, animationSpeed):
     blankx, blanky = getBlankPosition(board)
@@ -282,10 +274,9 @@ def sliding_animation(board, direction, message, animationSpeed):
         move_in_xaxis = blankx - 1
         move_in_yaxis = blanky
 
-    # prepare the base surface
+    #the base surface
     drawBoard(board, message)
     baseSurf = DISPLAYSURF.copy()
-    # draw a blank space over the moving block on the baseSurf Surface.
     take_left, take_top = getLeftTopOfTile(move_in_xaxis, move_in_yaxis)
     pygame.draw.rect(baseSurf, BGCOLOR, (take_left,
                      take_top, block_size, block_size))
@@ -312,12 +303,10 @@ def sliding_animation(board, direction, message, animationSpeed):
 
 
 def generateNewPuzzle(numSlides):
-    # this to display the animation of blocks
     sequence = []
     board = start_playing()
     drawBoard(board, '')
     pygame.display.update()
-    # we used time.wait() to pause 500 milliseconds for effect
     pygame.time.wait(500)
     lastMove = None
     for i in range(numSlides):
@@ -349,6 +338,6 @@ def rst_animation(board, allMoves):
         take_turn(board, opp_moves)
 
 
-# this is the call to main fucntion
+
 if __name__ == '__main__':
     main()
